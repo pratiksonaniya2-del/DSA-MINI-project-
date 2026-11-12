@@ -1,11 +1,5 @@
 import { Patient } from "../types/patient";
 
-/**
- * DATA STRUCTURE 3: Binary Search Tree (BST)
- * Used for searching patients using Patient ID with O(log n) average lookup time.
- * Compares IDs alphabetically or numerically.
- */
-
 export class BSTNode {
   patient: Patient;
   left: BSTNode | null = null;
@@ -20,7 +14,7 @@ export class BinarySearchTree {
   private root: BSTNode | null = null;
   private count: number = 0;
 
-  // Insert patient indexed by patient.id
+  
   insert(patient: Patient): void {
     const newNode = new BSTNode(patient);
     if (!this.root) {
@@ -32,7 +26,7 @@ export class BinarySearchTree {
     let current = this.root;
     while (true) {
       if (patient.id === current.patient.id) {
-        // Update if existing
+        
         current.patient = patient;
         return;
       }
@@ -54,7 +48,7 @@ export class BinarySearchTree {
     }
   }
 
-  // Search by patient ID
+  
   search(id: string): Patient | null {
     let current = this.root;
     while (current) {
@@ -70,7 +64,7 @@ export class BinarySearchTree {
     return null;
   }
 
-  // Delete node by patient ID
+  
   delete(id: string): boolean {
     let deleted = false;
 
@@ -84,21 +78,21 @@ export class BinarySearchTree {
         node.right = removeNode(node.right, targetId);
         return node;
       } else {
-        // Target found
+        
         deleted = true;
         this.count--;
 
-        // Case 1: Leaf node
+        
         if (!node.left && !node.right) {
           return null;
         }
 
-        // Case 2: One child
+        
         if (!node.left) return node.right;
         if (!node.right) return node.left;
 
-        // Case 3: Two children
-        // Find smallest in right subtree (in-order successor)
+        
+        
         let successor = node.right;
         while (successor.left) {
           successor = successor.left;
@@ -113,7 +107,7 @@ export class BinarySearchTree {
     return deleted;
   }
 
-  // In-order traversal (returns sorted array by ID)
+  
   inOrderTraversal(): Patient[] {
     const result: Patient[] = [];
     const traverse = (node: BSTNode | null) => {
@@ -127,7 +121,7 @@ export class BinarySearchTree {
     return result;
   }
 
-  // Get tree structure representation for visualization
+  
   getTreeStructure(): any {
     const serialize = (node: BSTNode | null): any => {
       if (!node) return null;

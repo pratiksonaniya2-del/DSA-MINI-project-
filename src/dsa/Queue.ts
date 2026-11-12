@@ -1,7 +1,4 @@
-/**
- * DATA STRUCTURE 1: FIFO Queue
- * Used for maintaining patients with the same priority / arrival sequence.
- */
+
 
 export class QueueNode<T> {
   value: T;
@@ -62,7 +59,7 @@ export class Queue<T> {
     return result;
   }
 
-  // Remove specific patient matching predicate (for cancellation)
+  
   remove(predicate: (item: T) => boolean): T | null {
     if (!this.head) return null;
 

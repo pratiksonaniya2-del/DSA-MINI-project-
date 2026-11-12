@@ -1,21 +1,13 @@
-/**
- * Emergency Patient Model
- * Emergency Levels:
- * 5 - Resuscitation / Critical (Immediate Life Threat)
- * 4 - Emergent (High Risk / Severe Pain / Unstable)
- * 3 - Urgent (Moderate Distress / Needs Prompt Treatment)
- * 2 - Less Urgent (Stable / Non-life threatening)
- * 1 - Non-Urgent (Routine minor issues)
- */
+
 export interface Patient {
-  id: string;              // e.g., "P-101"
-  name: string;            // Patient full name
-  age: number;             // Age
-  gender: string;          // Gender
-  emergencyLevel: number;  // 1 to 5 (higher is more critical)
+  id: string;              
+  name: string;            
+  age: number;             
+  gender: string;          
+  emergencyLevel: number;  
   conditionDescription: string;
-  arrivalNumber: number;   // Global sequential arrival counter
-  arrivalTime: Date;       // Timestamp of arrival
+  arrivalNumber: number;   
+  arrivalTime: Date;       
   status: 'WAITING' | 'TREATED' | 'CANCELLED';
   treatedTime?: Date;
   doctorNotes?: string;

@@ -1,8 +1,4 @@
-/**
- * DATA STRUCTURE 2: Singly Linked List
- * Used for maintaining treatment history.
- * Newer treated patients can be prepended or appended.
- */
+
 
 export class LinkedListNode<T> {
   value: T;
@@ -18,7 +14,7 @@ export class LinkedList<T> {
   private tail: LinkedListNode<T> | null = null;
   private length: number = 0;
 
-  // Insert at beginning for most recent history first
+  
   prepend(item: T): void {
     const node = new LinkedListNode(item);
     if (!this.head) {
@@ -31,7 +27,7 @@ export class LinkedList<T> {
     this.length++;
   }
 
-  // Insert at end
+  
   append(item: T): void {
     const node = new LinkedListNode(item);
     if (!this.tail) {

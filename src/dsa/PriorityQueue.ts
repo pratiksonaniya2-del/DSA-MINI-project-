@@ -1,22 +1,8 @@
 import { Patient } from "../types/patient";
 import { Queue } from "./Queue";
 
-/**
- * DATA STRUCTURE 4: Priority Queue using Multi-Level FIFO Queues (or Max-Heap)
- * Requirement:
- * "Patients with a higher emergency level must be treated before patients with a lower emergency level.
- * If two patients have the same emergency level, the patient who arrived earlier should be treated first.
- * Required Data Structures:
- * - Priority Queue – for emergency patients.
- * - Queue – for maintaining patients with the same priority/arrival sequence."
- * 
- * We implement this elegant hybrid Priority Queue using 5 distinct FIFO Queues (one per emergency level: 5 down to 1).
- * When `dequeue()` is called, it checks from highest emergency level (5) down to lowest (1).
- * Within the same level, patients are stored in a standard Queue, strictly guaranteeing FIFO arrival order!
- */
-
 export class PriorityQueue {
-  // Mapping priority level (1 to 5) to FIFO Queue
+  
   private levels: Map<number, Queue<Patient>> = new Map();
   private totalCount: number = 0;
 
@@ -26,7 +12,7 @@ export class PriorityQueue {
     }
   }
 
-  // Insert patient into corresponding emergency queue
+  
   insert(patient: Patient): void {
     const queue = this.levels.get(patient.emergencyLevel);
     if (queue) {
@@ -35,7 +21,7 @@ export class PriorityQueue {
     }
   }
 
-  // Treat next patient: highest level first, FIFO within same level
+  
   extractNext(): Patient | null {
     for (let level = 5; level >= 1; level--) {
       const queue = this.levels.get(level);
@@ -50,7 +36,7 @@ export class PriorityQueue {
     return null;
   }
 
-  // Peek the highest priority patient without removing
+  
   peek(): Patient | null {
     for (let level = 5; level >= 1; level--) {
       const queue = this.levels.get(level);
@@ -61,7 +47,7 @@ export class PriorityQueue {
     return null;
   }
 
-  // Remove specific patient by ID (e.g. cancellation)
+  
   removeById(patientId: string): Patient | null {
     for (let level = 5; level >= 1; level--) {
       const queue = this.levels.get(level);
@@ -76,7 +62,7 @@ export class PriorityQueue {
     return null;
   }
 
-  // Get all waiting patients in priority order
+  
   getAllWaiting(): Patient[] {
     const result: Patient[] = [];
     for (let level = 5; level >= 1; level--) {
@@ -88,7 +74,7 @@ export class PriorityQueue {
     return result;
   }
 
-  // Get queue breakdown per level
+  
   getLevelBreakdown(): { level: number; patients: Patient[] }[] {
     const breakdown: { level: number; patients: Patient[] }[] = [];
     for (let level = 5; level >= 1; level--) {

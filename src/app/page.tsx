@@ -21,13 +21,12 @@ import {
 import { EmergencyDepartmentController, LogEntry } from "../EmergencyDepartmentController";
 import { Patient, TRIAGE_LEVELS } from "../types/patient";
 
-// Initialize controller instance
 let erSystem: EmergencyDepartmentController;
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   
-  // State for UI views and data
+  
   const [activeTab, setActiveTab] = useState<"triage" | "search" | "history" | "dsa">("triage");
   const [waitingPatients, setWaitingPatients] = useState<Patient[]>([]);
   const [historyPatients, setHistoryPatients] = useState<Patient[]>([]);
@@ -35,7 +34,7 @@ export default function Home() {
   const [nextPatient, setNextPatient] = useState<Patient | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   
-  // Registration Form State
+  
   const [formData, setFormData] = useState({
     id: "P-" + Math.floor(100 + Math.random() * 900),
     name: "",
@@ -46,11 +45,11 @@ export default function Home() {
   });
   const [formMsg, setFormMsg] = useState<{ text: string; error?: boolean } | null>(null);
 
-  // Search State
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState<{ patient?: Patient; found: boolean } | null>(null);
 
-  // Treatment Modal / Form
+  
   const [doctorNotes, setDoctorNotes] = useState("");
   const [treatmentMsg, setTreatmentMsg] = useState<string | null>(null);
 
@@ -81,7 +80,7 @@ export default function Home() {
     );
   }
 
-  // Action: Register Patient
+  
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.age || !formData.conditionDescription.trim()) {
@@ -114,7 +113,7 @@ export default function Home() {
     }
   };
 
-  // Action: Treat Next Patient
+  
   const handleTreatNext = () => {
     const res = erSystem.treatNextPatient(doctorNotes || undefined);
     if (res.success) {
@@ -127,7 +126,7 @@ export default function Home() {
     setTimeout(() => setTreatmentMsg(null), 4000);
   };
 
-  // Action: Search Patient using BST
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -136,7 +135,7 @@ export default function Home() {
     refreshState();
   };
 
-  // Action: Cancel Registration
+  
   const handleCancelRegistration = (id: string) => {
     if (!confirm(`Are you sure you want to cancel registration for patient ID ${id}?`)) return;
     const res = erSystem.cancelRegistration(id);
@@ -146,7 +145,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col font-sans">
-      {/* Top Emergency Hospital Header */}
+      {}
       <header className="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
@@ -168,7 +167,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Quick Metrics Bar */}
+          {}
           <div className="flex items-center space-x-4 text-xs">
             <div className="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
               <span className="text-slate-400">Waiting in ED: </span>
@@ -185,7 +184,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+        {}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 border-t border-slate-800/80 pt-1 text-sm font-medium">
           <button
             onClick={() => setActiveTab("triage")}
@@ -237,14 +236,14 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content Area */}
+      {}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
-        {/* TAB 1: EMERGENCY TRIAGE & QUEUE */}
+        {}
         {activeTab === "triage" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Column: Register Patient & Quick Next Patient Action */}
+            {}
             <div className="lg:col-span-4 space-y-6">
-              {/* Next in Line Banner / Doctor Treatment Desk */}
+              {}
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="bg-gradient-to-r from-red-600 to-rose-700 p-4 text-white">
                   <div className="flex items-center justify-between">
@@ -314,7 +313,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Patient Registration Form */}
+              {}
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
                 <div className="flex items-center justify-between border-b pb-3">
                   <div className="flex items-center space-x-2">
@@ -434,9 +433,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Display All Waiting Patients (Organized by Level & Global Order) */}
+            {}
             <div className="lg:col-span-8 space-y-6">
-              {/* Waiting Patients List */}
+              {}
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
                   <div>
@@ -526,7 +525,7 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Priority Breakdown (Multi-level FIFO Queues) */}
+              {}
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
@@ -573,7 +572,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* TAB 2: BINARY SEARCH TREE SEARCH */}
+        {}
         {activeTab === "search" && (
           <div className="space-y-6">
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
@@ -682,7 +681,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* In-Order Traversal List */}
+            {}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-3">
               <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-2">
                 <Network className="h-4 w-4 text-blue-600" />
@@ -710,7 +709,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* TAB 3: TREATED PATIENT HISTORY (LINKED LIST) */}
+        {}
         {activeTab === "history" && (
           <div className="space-y-6">
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -779,10 +778,10 @@ export default function Home() {
           </div>
         )}
 
-        {/* TAB 4: DSA ARCHITECTURE & LIVE VISUALIZER */}
+        {}
         {activeTab === "dsa" && (
           <div className="space-y-6">
-            {/* Overview of Required Data Structures */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
                 <div className="flex items-center justify-between">
@@ -833,7 +832,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Live Real-time Operation Logs */}
+            {}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
@@ -866,7 +865,7 @@ export default function Home() {
         )}
       </main>
 
-      {/* Footer */}
+      {}
       <footer className="bg-white border-t border-slate-200 py-3 text-center text-xs text-slate-500">
         Emergency Patient Management System &bull; Built with Next.js, Tailwind CSS & TypeScript &bull; Project 4
       </footer>

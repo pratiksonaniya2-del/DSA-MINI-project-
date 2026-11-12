@@ -11,13 +11,6 @@ export interface LogEntry {
   dsaUsed: string;
 }
 
-/**
- * EmergencyDepartmentController
- * Integrates:
- * 1. PriorityQueue (with internal Level Queues) for emergency sorting & FIFO arrival
- * 2. BinarySearchTree for O(log n) patient search by ID
- * 3. LinkedList for treated patients history
- */
 export class EmergencyDepartmentController {
   private priorityQueue: PriorityQueue;
   private bst: BinarySearchTree;
@@ -31,7 +24,7 @@ export class EmergencyDepartmentController {
     this.treatedHistory = new LinkedList<Patient>();
   }
 
-  // 1. Register a new patient
+  
   registerPatient(data: {
     id: string;
     name: string;
@@ -40,7 +33,7 @@ export class EmergencyDepartmentController {
     emergencyLevel: number;
     conditionDescription: string;
   }): { success: boolean; message: string; patient?: Patient } {
-    // Check if ID already exists in waiting
+    
     const existing = this.bst.search(data.id);
     if (existing && existing.status === 'WAITING') {
       return {
@@ -57,10 +50,10 @@ export class EmergencyDepartmentController {
       status: 'WAITING',
     };
 
-    // Insert into Priority Queue (which places it into specific level's FIFO Queue)
+    
     this.priorityQueue.insert(newPatient);
 
-    // Insert into BST for instant search
+    
     this.bst.insert(newPatient);
 
     this.addLog(
@@ -76,7 +69,7 @@ export class EmergencyDepartmentController {
     };
   }
 
-  // 2. Treat the next patient
+  
   treatNextPatient(doctorNotes?: string): { success: boolean; patient?: Patient; message: string } {
     if (this.priorityQueue.isEmpty()) {
       return {
@@ -97,10 +90,10 @@ export class EmergencyDepartmentController {
     nextPatient.treatedTime = new Date();
     nextPatient.doctorNotes = doctorNotes || "Treated and stabilized in ER.";
 
-    // Remove or update in BST
-    this.bst.insert(nextPatient); // updates node status in BST
+    
+    this.bst.insert(nextPatient); 
 
-    // Add to LinkedList history (prepend to put most recent at head)
+    
     this.treatedHistory.prepend(nextPatient);
 
     this.addLog(
@@ -116,7 +109,7 @@ export class EmergencyDepartmentController {
     };
   }
 
-  // 3. Search for a patient using patient ID (via BST)
+  
   searchPatient(id: string): { found: boolean; patient?: Patient; traversalType: string } {
     const patient = this.bst.search(id);
     this.addLog(
@@ -132,7 +125,7 @@ export class EmergencyDepartmentController {
     };
   }
 
-  // 4. Cancel a patient's registration
+  
   cancelRegistration(id: string): { success: boolean; message: string } {
     const patient = this.bst.search(id);
     if (!patient) {
@@ -149,12 +142,12 @@ export class EmergencyDepartmentController {
       };
     }
 
-    // Remove from Priority Queue
+    
     const removed = this.priorityQueue.removeById(id);
 
     if (removed) {
       removed.status = 'CANCELLED';
-      this.bst.delete(id); // Or mark cancelled
+      this.bst.delete(id); 
 
       this.addLog(
         'CANCEL',
@@ -174,17 +167,17 @@ export class EmergencyDepartmentController {
     };
   }
 
-  // 5. Display all waiting patients
+  
   getAllWaitingPatients(): Patient[] {
     return this.priorityQueue.getAllWaiting();
   }
 
-  // 6. Display treated-patient history (from Linked List)
+  
   getTreatedHistory(): Patient[] {
     return this.treatedHistory.toArray();
   }
 
-  // Helper getters
+  
   getQueueBreakdown() {
     return this.priorityQueue.getLevelBreakdown();
   }
@@ -226,7 +219,7 @@ export class EmergencyDepartmentController {
     }
   }
 
-  // Seed sample clinical ER data for presentation & quick demo
+  
   seedSampleData(): void {
     const samples = [
       { id: "P-101", name: "David Miller", age: 58, gender: "Male", emergencyLevel: 5, conditionDescription: "Acute cardiac arrest, non-responsive" },
@@ -242,7 +235,7 @@ export class EmergencyDepartmentController {
       this.registerPatient(s);
     }
 
-    // Treat 2 patients to populate history initially
+    
     this.treatNextPatient("Defibrillated and stabilized. Transferred to ICU.");
     this.treatNextPatient("Epinephrine administered. Airway cleared and stable.");
   }
